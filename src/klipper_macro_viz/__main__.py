@@ -19,8 +19,12 @@ def main(macro_directory=None):
             # print(f"skipping file {a_file}")
     
     for cfg_file in files_to_check:
-        with open(cfg_file) as open_file:
-            print(open_file.read())
+        with open(cfg_file, 'r') as open_file:
+            # contents = open_file.read()
+            for line in open_file:
+                if "[gcode_macro" in line:
+                    print(line)
+
 
 if __name__=="__main__":
     try:
