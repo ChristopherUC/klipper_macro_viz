@@ -1,7 +1,7 @@
 import sys
 from pathlib import Path
 
-DEFAULT_DIR = "~/printer_data/config/"
+DEFAULT_DIR = Path("~/printer_data/config/")
 
 def main(macro_directory=None):
     print(f"Directory to check for Macros is: {macro_directory}")
