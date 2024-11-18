@@ -18,13 +18,16 @@ def main(macro_directory=None):
             files_to_skip.append(a_file)
             # print(f"skipping file {a_file}")
     
+    macros = []
     for cfg_file in files_to_check:
         with open(cfg_file, 'r') as open_file:
             # contents = open_file.read()
             for line in open_file:
                 if "[gcode_macro" in line:
-                    print(line)
+                    # print(line)
+                    macros.append(line)
 
+    print(macros)
 
 if __name__=="__main__":
     try:
