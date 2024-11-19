@@ -35,7 +35,7 @@ def main(macro_directory=None):
     
     hierarchy = {}
     for each_macro in macros:
-        hierarchy[each_macro] = [""]
+        hierarchy[each_macro] = []
 
     total_lines = 0  # how many total lines are there in all files
     for cfg_file in files_to_check:  # check all files
