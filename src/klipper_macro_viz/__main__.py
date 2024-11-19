@@ -22,13 +22,30 @@ def main(macro_directory=None):
     macros = []
     for cfg_file in files_to_check:
         with open(cfg_file, 'r') as open_file:
-            # contents = open_file.read()
             for line in open_file:
-                if "gcode_macro" in line:
-                    macro_name = re.search("^\[gcode_macro .*\]$",line)
-                    macros.append(macro_name.group(0))
+                macro_name = re.search("^\[gcode_macro (.*)\]$",line)
+                try:
+                    macros.append(macro_name.group(1))
+                except AttributeError:
+                    pass
+    
+    hierarchy = {}
+    for each_macro in macros:
+        hierarchy[each_macro] = []
 
-    print(macros)
+    for cfg_file in files_to_check:
+        current_macro = ""
+        with open(cfg_file, 'r') as open_file:
+            for line in open_file:
+                macro_name = re.search("^\[gcode_macro (.*)\]$",line)
+                try:
+                    current_macro = macro_name.group(1)
+                except AttributeError:
+                    for macro_name in macros:
+                        if macro_name in line:
+                            hierarchy[current_macro].append(line)
+    print(hierarchy)
+
 
 if __name__=="__main__":
     try:
