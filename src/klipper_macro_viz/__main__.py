@@ -98,8 +98,9 @@ def main(macro_directory=None, find_macro=None):
         pretty(occurrences)
     else:
         print(f"Macro {find_macro} appears {occurrences[find_macro]} times")
-        print(f"in the following macros")
-        pretty(f"{occurrence_references[find_macro]}")
+        if int(occurrences[find_macro]) > 0:
+            print(f"in the following macros")
+            pretty(f"{occurrence_references[find_macro]}")
         print(f"Macro {find_macro} references {len(hierarchy[find_macro])} other macros")
         pretty(hierarchy[find_macro])
 
