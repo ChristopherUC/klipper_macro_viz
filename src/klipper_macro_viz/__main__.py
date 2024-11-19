@@ -45,6 +45,12 @@ def main(macro_directory=None):
             for line in open_file:  # line-by-line review
                 total_lines += 1
                 file_lines += 1
+                is_comment = re.search("^(#).*",line)
+                try:
+                    if is_comment.group(1):
+                        continue
+                except AttributeError:
+                    pass
                 macro_name = re.search("^\[gcode_macro (.*)\]$",line)  # check if we are staring a new macro
                 try:
                     current_macro = macro_name.group(1)  # set the new macro name
