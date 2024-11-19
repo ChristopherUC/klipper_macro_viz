@@ -101,8 +101,11 @@ def main(macro_directory=None, find_macro=None):
         if int(occurrences[find_macro]) > 0:
             print(f"in the following macros")
             pretty(f"{occurrence_references[find_macro]}")
-        print(f"Macro {find_macro} references {len(hierarchy[find_macro])} other macros")
-        pretty(hierarchy[find_macro])
+        try:
+            print(f"Macro {find_macro} references {len(hierarchy[find_macro])} other macros")
+            pretty(hierarchy[find_macro])
+        except KeyError:
+            print(f"Macro {find_macro} references 0 other macros")
 
 
 if __name__=="__main__":
