@@ -35,7 +35,7 @@ def main(macro_directory=None, find_macro=None):
                               "definition": line,
                               "line_no": line_count,
                               }
-                    macro_definitions.setdefault(name, []).append(reference)
+                    macro_definitions.setdefault(name, []).append(source)
                     if name not in seen:
                         macros.append(name)
                         seen.add(name)
