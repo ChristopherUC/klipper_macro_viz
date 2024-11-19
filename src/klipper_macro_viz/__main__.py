@@ -43,7 +43,7 @@ def main(macro_directory=None):
                 except AttributeError:
                     for macro_name in macros:
                         if macro_name in line:
-                            print(f"searching line {line}")
+                            print(f"searching line {line} for {len(macros)} macros")
                             hierarchy[current_macro].append(line)
     print(hierarchy)
 
