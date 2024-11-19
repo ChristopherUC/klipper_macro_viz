@@ -51,6 +51,7 @@ def main(macro_directory=None):
                         continue
                 except AttributeError:
                     pass
+                line = line.strip(' \t\n\r')
                 macro_name = re.search("^\[gcode_macro (.*)\]$",line)  # check if we are staring a new macro
                 try:
                     current_macro = macro_name.group(1)  # set the new macro name
@@ -63,13 +64,14 @@ def main(macro_directory=None):
                         if macro_name in line:  # check THIS LINE for each of the individual macros
                             print(f"found reference to {macro_name} in line {line}")
                             try:
-                                print(f"BEFORE about to add to hierarchy[{current_macro}]")
+                                print(f"BEFORE about to add {macro_name} to hierarchy[{current_macro}]")
                                 print(hierarchy[current_macro])
                                 hierarchy[current_macro].append(str(line))  # append this line to 
                                 print(f"AFTER about to add to hierarchy[{current_macro}]")
                                 print(hierarchy[current_macro])
                             except KeyError as e:
                                 print(f"\t\tkey error for {macro_name} in line {line} in file {cfg_file}")
+                                print(f"")
                                 raise e
     print("="*80)
     print(f"{total_lines} total lines searched")
