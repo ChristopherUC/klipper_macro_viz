@@ -16,11 +16,6 @@ def main(macro_directory=None, find_macro=None):
     macro_definitions = find_macro_definitions(files_to_check)
     macro_list = macro_definitions.keys()  # not sure I will keep this
 
-    print(macro_definitions)
-    for macro in macro_definitions:
-        print(macro, len(macro_definitions[macro]))
-    sys.exit()
-
     hierarchy = {}
     occurrence_references = {}
     occurrences = {each_macro: 0 for each_macro in  macro_list}
@@ -127,6 +122,9 @@ def main(macro_directory=None, find_macro=None):
         print("%s%s" % (pre, node.name))
 
     print("="*80)
+    for macro in macro_definitions:
+        print(macro, len(macro_definitions[macro]))
+
 
 
 
