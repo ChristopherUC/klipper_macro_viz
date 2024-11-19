@@ -3,6 +3,7 @@ import re
 from pathlib import Path
 from pprint import pprint as pretty
 
+
 DEFAULT_DIR = Path(Path.home(),"printer_data","config")
 
 def main(macro_directory=None, find_macro=None):
@@ -127,6 +128,17 @@ def main(macro_directory=None, find_macro=None):
                 print("="*80)
         except KeyError:
             print("definition not found, WTF")
+    
+    print("="*80)
+    # print(tr(occurrences))
+    print("="*80)
+    # print(tr(occurrence_references))
+    print("="*80)
+    # print(tr(hierarchy))
+    print("="*80)
+    # print(tr(macro_definitions))
+    print("="*80)
+
 
 
 if __name__=="__main__":
