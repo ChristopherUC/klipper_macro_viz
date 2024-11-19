@@ -71,12 +71,12 @@ def main(macro_directory=None, find_macro=None):
                         if macro_name in line:  # check THIS LINE for each of the individual macros
                             print(f"\t\tfound reference to {macro_name} in line {line}")
                             try:
-                                # print(f"BEFORE about to add {macro_name} to hierarchy[{current_macro}]")
-                                # print(hierarchy[current_macro])
-                                hierarchy.setdefault(current_macro, []).append(line)  # append this line to 
+                                reference = {'line': line, 
+                                             'line_no': file_lines,
+                                             'file_name': open_file.name,
+                                             }
+                                hierarchy.setdefault(current_macro, []).append(reference)  # append this line to 
                                 occurrences[current_macro] +=1
-                                # print(f"AFTER about to add to hierarchy[{current_macro}]")
-                                # print(hierarchy[current_macro])
                             except KeyError as e:
                                 print(f"\t\tkey error for {macro_name} in line {line} in file {cfg_file}")
                                 print(f"")
