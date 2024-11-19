@@ -5,7 +5,7 @@ from pprint import pprint as pretty
 
 DEFAULT_DIR = Path(Path.home(),"printer_data","config")
 
-def main(macro_directory=None):
+def main(macro_directory=None, find_macro=None):
     print(f"Directory to check for Macros is: {macro_directory}")
     
     cfg_files = Path(macro_directory).glob('**/*')
@@ -69,7 +69,7 @@ def main(macro_directory=None):
                         continue  # we aren't actually looking inside a macro yet
                     for macro_name in macros:  # we will look for EVERY macro
                         if macro_name in line:  # check THIS LINE for each of the individual macros
-                            print(f"found reference to {macro_name} in line {line}")
+                            print(f"\t\tfound reference to {macro_name} in line {line}")
                             try:
                                 # print(f"BEFORE about to add {macro_name} to hierarchy[{current_macro}]")
                                 # print(hierarchy[current_macro])
@@ -88,7 +88,12 @@ def main(macro_directory=None):
     # print("="*80)
     # print(hierarchy)
     print("="*80)
-    pretty(occurrences)
+    print(f"{len(occurrences)} total macros")
+    if find_macro is None:
+        pretty(occurrences)
+    else:
+        print(occurrences[find_macro])
+        print(hierarchy[find_macro])
 
 if __name__=="__main__":
     try:
@@ -97,5 +102,10 @@ if __name__=="__main__":
         print("No macro dir provided, defaulting to:")
         print(DEFAULT_DIR)
         macro_dir = Path(DEFAULT_DIR)
+    try:
+        macro_search = sys.argv[2]
+    except IndexError as e:
+        print("No macro to search provided, defaulting to ALL")
+        macro_search = None
 
-    main(macro_dir)
+    main(macro_dir, macro_search)
