@@ -52,7 +52,7 @@ def main(macro_directory=None):
     print(len(macros))
     print(macros)
     print(len(hierarchy))
-    print(hierarchy.keys()
+    print(hierarchy.keys())
     # print(hierarchy)
 
 
