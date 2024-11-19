@@ -49,7 +49,9 @@ def main(macro_directory=None):
                             except KeyError:
                                 print(f"key error for {macro_name} in line {line} in file {cfg_file}")
     print("="*80)
+    print(len(macros))
     print(macros)
+    print(len(hierarchy))
     print(hierarchy)
 
 
