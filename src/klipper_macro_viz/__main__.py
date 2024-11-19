@@ -42,6 +42,9 @@ def main(macro_directory=None):
         current_macro = ""  # which macro are we currently searching
         file_lines = 0  # how many lines in just THIS file
         with open(cfg_file, 'r') as open_file:
+            print("="*80)  # WHAT FILE ARE WE WORKING
+            print(f"JUST OPENED file")
+            print(f"\t{open_file.name}")
             for line in open_file:  # line-by-line review
                 total_lines += 1
                 file_lines += 1
@@ -55,10 +58,10 @@ def main(macro_directory=None):
                 macro_name = re.search("^\[gcode_macro (.*)\]$",line)  # check if we are staring a new macro
                 try:
                     current_macro = macro_name.group(1)  # set the new macro name
-                    print("="*80)  # and print the header info
-                    print(f"Currently searching inside macro {current_macro}")
+                    print("-"*20)  # and print the header info
+                    print(f"Currently searching line {file_lines}")
+                    print(f"inside macro {current_macro}")
                     print(f"\tin file {open_file.name}")
-                    print(f"\ton line {file_lines}")
                 except AttributeError:  # this line is NOT a new macro
                     for macro_name in macros:  # we will look for EVERY macro
                         if macro_name in line:  # check THIS LINE for each of the individual macros
