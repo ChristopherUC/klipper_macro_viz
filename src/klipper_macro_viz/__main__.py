@@ -7,52 +7,67 @@ from anytree import Node, RenderTree
 
 DEFAULT_DIR = Path(Path.home(),"printer_data","config")
 
-def main(macro_directory=None, find_macro=None):
-    print(f"Directory to check for Macros is: {macro_directory}")
-    
-    cfg_files = Path(macro_directory).glob('**/*')
-    files_to_check = []
-    files_to_skip = []
-    
+def find_all_cfg_files(dir_for_files): 
+    print(f"Directory to check for Macros is: {dir_for_files}")
+    cfg_files = Path(dir_for_files).glob('**/*')
+    config_file_list = []
+    non_config_file_name_list = []
     for a_file in cfg_files:
+        file_info = {
+            "path_object": a_file,
+            "name": a_file.name,
+            "line_count": -1,
+        }
         if ".cfg" in str(a_file):
-            files_to_check.append(a_file)
-            # print(f"Added {a_file} to list")
+            config_file_list.append(file_info)
         else:
-            files_to_skip.append(a_file)
-            # print(f"skipping file {a_file}")
+            non_config_file_name_list.append(file_info)
+    return config_file_list
+
+
+def is_macro_definition(line_of_file):
+    macro_name = re.search("^\[gcode_macro (.*)\]$",line_of_file)
+    try:
+        name = macro_name.group(1)
+    except AttributeError:
+        return False
+    return name
+
+def find_macro_definitions(file_list_of_dicts):
+    macro_references = {}
+    file_list = [x for x in file_list_of_dicts]
+    for file_dict in file_list_of_dicts:
+        with open(file_dict["path_object"], 'r') as open_file:
+            line_number = 0
+            for config_line in open_file:
+                line_number += 1
+                found_macro = is_macro_definition(config_line)
+                if not found_macro:
+                    continue
+                source = {"file_name": open_file.name,
+                    "definition": config_line,
+                    "line_no": line_number,
+                    }
+                macro_references.setdefault(found_macro, []).append(source)
+            file_dict["line_count"] = line_number
+    return macro_references
+
+def main(macro_directory=None, find_macro=None):
     
-    macros = []
-    macro_definitions = {}
-    seen = set()
-    for cfg_file in files_to_check:
-        with open(cfg_file, 'r') as open_file:
-            line_count = 0
-            for line in open_file:
-                line_count += 1
-                macro_name = re.search("^\[gcode_macro (.*)\]$",line)
-                try:
-                    name = macro_name.group(1)
-                    source = {"file_name": open_file.name,
-                              "definition": line,
-                              "line_no": line_count,
-                              }
-                    macro_definitions.setdefault(name, []).append(source)
-                    if name not in seen:
-                        macros.append(name)
-                        seen.add(name)
-                except AttributeError:
-                    pass
-    
+    files_to_check = find_all_cfg_files(macro_directory)
+    macro_definitions = find_macro_definitions(files_to_check)
+
+    macro_list = macro_definitions.keys()  # not sure I will keep this
+
     hierarchy = {}
     occurrence_references = {}
     occurrences = {}
-    for each_macro in macros:
+    for each_macro in macro_list:
          occurrences[each_macro] = 0
 
     total_lines = 0  # how many total lines are there in all files
     for cfg_file in files_to_check:  # check all files
-        with open(cfg_file, 'r') as open_file:
+        with open(cfg_file["path_object"], 'r') as open_file:
             file_lines = 0  # how many lines in just THIS file
             current_macro = None  # which macro are we currently searching
             print("="*80)  # WHAT FILE ARE WE WORKING
@@ -78,7 +93,7 @@ def main(macro_directory=None, find_macro=None):
                 except AttributeError:  # this line is NOT a new macro
                     if current_macro is None:
                         continue  # we aren't actually looking inside a macro yet
-                    for macro_name in macros:  # we will look for EVERY macro
+                    for macro_name in macro_list:  # we will look for EVERY macro
                         if macro_name in line:  # check THIS LINE for each of the individual macros
                             print(f"\t\tfound reference to {macro_name} in line {line}")
                             try:
