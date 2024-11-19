@@ -53,12 +53,10 @@ def main(macro_directory=None):
                             except KeyError:
                                 print(f"key error for {macro_name} in line {line} in file {cfg_file}")
     print("="*80)
-    print(len(macros))
-    print(macros)
-    print(len(hierarchy))
     print(hierarchy.keys())
-    # print(hierarchy)
-
+    print("="*80)
+    print(hierarchy)
+    print("="*80)
 
 if __name__=="__main__":
     try:
