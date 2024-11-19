@@ -1,4 +1,5 @@
 import sys
+import re
 from pathlib import Path
 
 DEFAULT_DIR = Path(Path.home(),"printer_data","config")
@@ -23,9 +24,9 @@ def main(macro_directory=None):
         with open(cfg_file, 'r') as open_file:
             # contents = open_file.read()
             for line in open_file:
-                if "[gcode_macro" in line:
-                    # print(line)
-                    macros.append(line)
+                if "gcode_macro" in line:
+                    macro_name = re.search("^\[gcode_macro .*\]$",line)
+                    macros.append(macro_name.group(0))
 
     print(macros)
 
