@@ -114,6 +114,10 @@ def main(macro_directory=None, find_macro=None):
             pretty(hierarchy[find_macro])
         except KeyError:
             print(f"Macro {find_macro} references 0 other macros")
+        try:
+            print(macro_definitions[find_macro])
+        except KeyError:
+            print("definition not found, WTF")
 
 
 if __name__=="__main__":
