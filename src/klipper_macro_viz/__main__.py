@@ -52,7 +52,8 @@ def main(macro_directory=None):
     print(len(macros))
     print(macros)
     print(len(hierarchy))
-    print(hierarchy)
+    print(hierarchy.keys()
+    # print(hierarchy)
 
 
 if __name__=="__main__":
