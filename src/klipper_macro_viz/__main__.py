@@ -37,13 +37,21 @@ def main(macro_directory=None):
     for each_macro in macros:
         hierarchy[each_macro] = [""]
 
+    total_lines = 0
     for cfg_file in files_to_check:
         current_macro = ""
+        file_lines = 0
         with open(cfg_file, 'r') as open_file:
             for line in open_file:
+                total_lines += 1
+                file_lines += 1
                 macro_name = re.search("^\[gcode_macro (.*)\]$",line)
                 try:
                     current_macro = macro_name.group(1)
+                    print("="*80)
+                    print(f"Currently searching inside macro {current_macro}")
+                    print(f"\tin file {open_file}")
+                    print(f"\ton line {file_lines}")
                 except AttributeError:
                     for macro_name in macros:
                         if macro_name in line:
@@ -51,7 +59,9 @@ def main(macro_directory=None):
                             try:
                                 hierarchy[current_macro].append(str(line))
                             except KeyError:
-                                print(f"key error for {macro_name} in line {line} in file {cfg_file}")
+                                print(f"\t\tkey error for {macro_name} in line {line} in file {cfg_file}")
+    print("="*80)
+    print(f"{total_lines} total lines searched")
     print("="*80)
     print(hierarchy.keys())
     print("="*80)
