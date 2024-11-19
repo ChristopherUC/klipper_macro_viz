@@ -21,6 +21,7 @@ def main(macro_directory=None, find_macro=None):
     occurrences = {each_macro: 0 for each_macro in  macro_list}
 
     for cfg_file in files_to_check:  # check all files
+        file_lines = 0
         with open(cfg_file["path_object"], 'r') as open_file:
             current_macro = None  # which macro are we currently searching
             print("="*80)  # WHAT FILE ARE WE WORKING
