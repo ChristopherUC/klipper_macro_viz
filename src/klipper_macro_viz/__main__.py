@@ -43,8 +43,11 @@ def main(macro_directory=None):
                 except AttributeError:
                     for macro_name in macros:
                         if macro_name in line:
-                            print(f"searching line {line} for {len(macros)} macros")
-                            hierarchy[current_macro].append(line)
+                            print(f"found {macro_name} in line {line}")
+                            try:
+                                hierarchy[current_macro].append(line)
+                            except KeyError:
+                                print(f"key error for {macro_name} in line {line} in file {cfg_file}")
     print(hierarchy)
 
 
