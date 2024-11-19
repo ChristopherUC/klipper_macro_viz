@@ -2,6 +2,7 @@ import sys
 import re
 from pathlib import Path
 from pprint import pprint as pretty
+from anytree import Node, RenderTree
 
 
 DEFAULT_DIR = Path(Path.home(),"printer_data","config")
@@ -128,15 +129,17 @@ def main(macro_directory=None, find_macro=None):
                 print("="*80)
         except KeyError:
             print("definition not found, WTF")
-    
-    print("="*80)
-    # print(tr(occurrences))
-    print("="*80)
-    # print(tr(occurrence_references))
-    print("="*80)
-    # print(tr(hierarchy))
-    print("="*80)
-    # print(tr(macro_definitions))
+        
+    print("="*80)  # occurrence_references
+    file_list = Node("config")
+    for pre, fill, node in RenderTree(file_list):
+        print("%s%s" % (pre, node.name))
+
+    print("="*80)  # macro_definitions
+    macro_list = Node("config")
+    for pre, fill, node in RenderTree(macro_list):
+        print("%s%s" % (pre, node.name))
+
     print("="*80)
 
 
