@@ -20,12 +20,16 @@ def main(macro_directory=None):
             # print(f"skipping file {a_file}")
     
     macros = []
+    seen = set()
     for cfg_file in files_to_check:
         with open(cfg_file, 'r') as open_file:
             for line in open_file:
                 macro_name = re.search("^\[gcode_macro (.*)\]$",line)
                 try:
-                    macros.append(macro_name.group(1))
+                    name = macro_name.group(1)
+                    if name not in seen:
+                        macros.append(name)
+                        seen.add(name)
                 except AttributeError:
                     pass
     
