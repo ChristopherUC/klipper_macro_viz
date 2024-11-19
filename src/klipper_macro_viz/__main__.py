@@ -139,14 +139,17 @@ def main(macro_directory=None, find_macro=None):
         print("%s%s" % (pre, node.name))
 
     print("="*80)  # macro_definitions
-    macro_list = Node("config")
+    macro_list = Node("config_file")
     # print("macdef:/",macro_definitions,"/")
     file_nodes = {}
     for macro_name, macro_data in macro_definitions.items():
         # print(macro_name)
         # print(macro_data[0]['file_name'])
-        file_nodes[macro_name] = Node(macro_name, parent=macro_list)
-        file_nodes[macro_name+macro_data[0]['file_name']] = Node(macro_data[0]['file_name'], parent=file_nodes[macro_name])
+        try: 
+            file_node = file_nodes[macro_data[0]['file_name']]
+        except KeyError:
+            file_node = file_nodes[macro_data[0]['file_name']] = Node(macro_data[0]['file_name'], parent=macro_list)
+        file_nodes[macro_name] = Node(macro_name, parent=file_node)
     for pre, fill, node in RenderTree(macro_list):
         print("%s%s" % (pre, node.name))
 
