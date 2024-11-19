@@ -35,6 +35,7 @@ def main(macro_directory=None, find_macro=None):
                     pass
     
     hierarchy = {}
+    occurrence_references = {}
     occurrences = {}
     for each_macro in macros:
          occurrences[each_macro] = 0
@@ -77,6 +78,7 @@ def main(macro_directory=None, find_macro=None):
                                              }
                                 hierarchy.setdefault(current_macro, []).append(reference)  # append this line to 
                                 occurrences[macro_name] +=1
+                                occurrence_references.setdefault(macro_name, []).append(current_macro)
                             except KeyError as e:
                                 print(f"\t\tkey error for {macro_name} in line {line} in file {cfg_file}")
                                 print(f"")
@@ -96,8 +98,11 @@ def main(macro_directory=None, find_macro=None):
         pretty(occurrences)
     else:
         print(f"Macro {find_macro} appears {occurrences[find_macro]} times")
+        print(f"in the following macros")
+        pretty(f"{occurrence_references}")
         print(f"Macro {find_macro} references {len(hierarchy[find_macro])} other macros")
         pretty(hierarchy[find_macro])
+
 
 if __name__=="__main__":
     try:
