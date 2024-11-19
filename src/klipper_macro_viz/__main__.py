@@ -92,8 +92,8 @@ def main(macro_directory=None, find_macro=None):
     if find_macro is None:
         pretty(occurrences)
     else:
-        print(occurrences[find_macro])
-        print(hierarchy[find_macro])
+        print(f"Macro {find_macro} appears {occurrences[find_macro]} times:")
+        pretty(hierarchy[find_macro])
 
 if __name__=="__main__":
     try:
