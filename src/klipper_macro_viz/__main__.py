@@ -4,8 +4,8 @@ from pathlib import Path
 from pprint import pprint as pretty
 from anytree import Node, RenderTree
 
-from klipper_macro_viz.find_all_cfg_files import find_all_cfg_files
-from klipper_macro_viz.find_macro_definitions import find_macro_definitions
+from .find_all_cfg_files import find_all_cfg_files
+from .find_macro_definitions import find_macro_definitions
 
 
 DEFAULT_DIR = Path(Path.home(),"printer_data","config")
@@ -16,13 +16,17 @@ def main(macro_directory=None, find_macro=None):
     macro_definitions = find_macro_definitions(files_to_check)
     macro_list = macro_definitions.keys()  # not sure I will keep this
 
+    print(macro_definitions)
+    for macro in macro_definitions:
+        print(macro, len(macro_definitions[macro]))
+    sys.exit()
+
     hierarchy = {}
     occurrence_references = {}
     occurrences = {each_macro: 0 for each_macro in  macro_list}
 
     for cfg_file in files_to_check:  # check all files
         with open(cfg_file["path_object"], 'r') as open_file:
-            file_lines = 0  # how many lines in just THIS file
             current_macro = None  # which macro are we currently searching
             print("="*80)  # WHAT FILE ARE WE WORKING
             print(f"JUST OPENED file")
