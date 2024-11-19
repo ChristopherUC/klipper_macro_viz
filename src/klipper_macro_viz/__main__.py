@@ -116,6 +116,15 @@ def main(macro_directory=None, find_macro=None):
             print(f"Macro {find_macro} references 0 other macros")
         try:
             print(macro_definitions[find_macro])
+            if len(macro_definitions[find_macro]) > 1:
+                print("="*80)
+                print("="*80)
+                print("="*80)
+                print("HOOOOOOOOOOOLLLLLLLLLLEEEEEEEEEEEEEEEE SSSSSHHHHHHHIIIIIIIIIITTTTTTTTTTT")
+                print("There should NOT be more than one definition for any macro")
+                print("="*80)
+                print("="*80)
+                print("="*80)
         except KeyError:
             print("definition not found, WTF")
 
