@@ -50,7 +50,7 @@ def main(macro_directory=None):
                     current_macro = macro_name.group(1)
                     print("="*80)
                     print(f"Currently searching inside macro {current_macro}")
-                    print(f"\tin file {open_file}")
+                    print(f"\tin file {open_file.name}")
                     print(f"\ton line {file_lines}")
                 except AttributeError:
                     for macro_name in macros:
