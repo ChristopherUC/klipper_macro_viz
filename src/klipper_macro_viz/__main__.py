@@ -34,8 +34,8 @@ def main(macro_directory=None):
                     pass
     
     hierarchy = {}
-    for each_macro in macros:
-        hierarchy[each_macro] = []
+    # for each_macro in macros:
+    #     hierarchy[each_macro] = []
 
     total_lines = 0  # how many total lines are there in all files
     for cfg_file in files_to_check:  # check all files
@@ -69,11 +69,11 @@ def main(macro_directory=None):
                         if macro_name in line:  # check THIS LINE for each of the individual macros
                             print(f"found reference to {macro_name} in line {line}")
                             try:
-                                print(f"BEFORE about to add {macro_name} to hierarchy[{current_macro}]")
-                                print(hierarchy[current_macro])
-                                hierarchy[current_macro].append(str(line))  # append this line to 
-                                print(f"AFTER about to add to hierarchy[{current_macro}]")
-                                print(hierarchy[current_macro])
+                                # print(f"BEFORE about to add {macro_name} to hierarchy[{current_macro}]")
+                                # print(hierarchy[current_macro])
+                                hierarchy.setdefault(current_macro, []).append(line)  # append this line to 
+                                # print(f"AFTER about to add to hierarchy[{current_macro}]")
+                                # print(hierarchy[current_macro])
                             except KeyError as e:
                                 print(f"\t\tkey error for {macro_name} in line {line} in file {cfg_file}")
                                 print(f"")
