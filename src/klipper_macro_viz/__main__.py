@@ -34,6 +34,7 @@ def main(macro_directory=None):
                     pass
     
     hierarchy = {}
+    occurrences = {}
     # for each_macro in macros:
     #     hierarchy[each_macro] = []
 
@@ -72,6 +73,7 @@ def main(macro_directory=None):
                                 # print(f"BEFORE about to add {macro_name} to hierarchy[{current_macro}]")
                                 # print(hierarchy[current_macro])
                                 hierarchy.setdefault(current_macro, []).append(line)  # append this line to 
+                                occurrences.setdefault(current_macro, 0)+=1
                                 # print(f"AFTER about to add to hierarchy[{current_macro}]")
                                 # print(hierarchy[current_macro])
                             except KeyError as e:
@@ -85,6 +87,7 @@ def main(macro_directory=None):
     print("="*80)
     print(hierarchy)
     print("="*80)
+    print(occurrences)
 
 if __name__=="__main__":
     try:
