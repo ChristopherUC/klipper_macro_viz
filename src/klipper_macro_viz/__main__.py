@@ -21,13 +21,21 @@ def main(macro_directory=None, find_macro=None):
             # print(f"skipping file {a_file}")
     
     macros = []
+    macro_definitions = {}
     seen = set()
     for cfg_file in files_to_check:
         with open(cfg_file, 'r') as open_file:
+            line_count = 0
             for line in open_file:
+                line_count += 1
                 macro_name = re.search("^\[gcode_macro (.*)\]$",line)
                 try:
                     name = macro_name.group(1)
+                    source = {"file_name": open_file.name,
+                              "definition": line,
+                              "line_no": line_count,
+                              }
+                    macro_definitions.setdefault(name, []).append(reference)
                     if name not in seen:
                         macros.append(name)
                         seen.add(name)
