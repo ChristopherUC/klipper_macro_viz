@@ -89,6 +89,9 @@ def main(macro_directory=None, find_macro=None):
     # print(hierarchy)
     print("="*80)
     print(f"{len(occurrences)} total macros")
+    print("="*80)
+    print(f"{len(files_to_check)} total files")
+    print("="*80)
     if find_macro is None:
         pretty(occurrences)
     else:
