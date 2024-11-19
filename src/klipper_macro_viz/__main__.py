@@ -1,6 +1,7 @@
 import sys
 import re
 from pathlib import Path
+from pprint import pprint as pretty
 
 DEFAULT_DIR = Path(Path.home(),"printer_data","config")
 
@@ -82,12 +83,12 @@ def main(macro_directory=None):
                                 raise e
     print("="*80)
     print(f"{total_lines} total lines searched")
+    # print("="*80)
+    # print(hierarchy.keys())
+    # print("="*80)
+    # print(hierarchy)
     print("="*80)
-    print(hierarchy.keys())
-    print("="*80)
-    print(hierarchy)
-    print("="*80)
-    print(occurrences)
+    pretty(occurrences)
 
 if __name__=="__main__":
     try:
