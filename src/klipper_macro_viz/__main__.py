@@ -39,9 +39,9 @@ def main(macro_directory=None):
 
     total_lines = 0  # how many total lines are there in all files
     for cfg_file in files_to_check:  # check all files
-        current_macro = ""  # which macro are we currently searching
-        file_lines = 0  # how many lines in just THIS file
         with open(cfg_file, 'r') as open_file:
+            file_lines = 0  # how many lines in just THIS file
+            current_macro = None  # which macro are we currently searching
             print("="*80)  # WHAT FILE ARE WE WORKING
             print(f"JUST OPENED file")
             print(f"\t{open_file.name}")
@@ -51,10 +51,10 @@ def main(macro_directory=None):
                 is_comment = re.search("^(#).*",line)
                 try:
                     if is_comment.group(1):
-                        continue
+                        continue  # line was a comment, continue the loop
                 except AttributeError:
-                    pass
-                line = line.strip(' \t\n\r')
+                    pass  # not a comment, proceed
+                line = line.strip(' \t\n\r')  # cleanup the line
                 macro_name = re.search("^\[gcode_macro (.*)\]$",line)  # check if we are staring a new macro
                 try:
                     current_macro = macro_name.group(1)  # set the new macro name
@@ -63,6 +63,8 @@ def main(macro_directory=None):
                     print(f"inside macro {current_macro}")
                     print(f"\tin file {open_file.name}")
                 except AttributeError:  # this line is NOT a new macro
+                    if current_macro is None:
+                        continue  # we aren't actually looking inside a macro yet
                     for macro_name in macros:  # we will look for EVERY macro
                         if macro_name in line:  # check THIS LINE for each of the individual macros
                             print(f"found reference to {macro_name} in line {line}")
