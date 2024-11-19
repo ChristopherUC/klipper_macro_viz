@@ -140,7 +140,7 @@ def main(macro_directory=None, find_macro=None):
 
     print("="*80)  # macro_definitions
     macro_list = Node("config")
-    print("macdef:/",macro_definitions,"/")
+    # print("macdef:/",macro_definitions,"/")
     file_nodes = {}
     for macro_name, macro_data in macro_definitions.items():
         # print(macro_name)
