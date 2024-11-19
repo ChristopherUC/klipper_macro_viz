@@ -35,8 +35,8 @@ def main(macro_directory=None):
     
     hierarchy = {}
     occurrences = {}
-    # for each_macro in macros:
-    #     hierarchy[each_macro] = []
+    for each_macro in macros:
+         occurrences[each_macro] = 0
 
     total_lines = 0  # how many total lines are there in all files
     for cfg_file in files_to_check:  # check all files
@@ -73,7 +73,7 @@ def main(macro_directory=None):
                                 # print(f"BEFORE about to add {macro_name} to hierarchy[{current_macro}]")
                                 # print(hierarchy[current_macro])
                                 hierarchy.setdefault(current_macro, []).append(line)  # append this line to 
-                                occurrences.setdefault(current_macro, 0)+=1
+                                occurrences[current_macro] +=1
                                 # print(f"AFTER about to add to hierarchy[{current_macro}]")
                                 # print(hierarchy[current_macro])
                             except KeyError as e:
