@@ -31,7 +31,7 @@ def main(macro_directory=None):
     
     hierarchy = {}
     for each_macro in macros:
-        hierarchy[each_macro] = []
+        hierarchy[each_macro] = [""]
 
     for cfg_file in files_to_check:
         current_macro = ""
@@ -45,7 +45,7 @@ def main(macro_directory=None):
                         if macro_name in line:
                             # print(f"found {macro_name} in line {line}")
                             try:
-                                hierarchy[current_macro].append(line)
+                                hierarchy[current_macro].append(str(line))
                             except KeyError:
                                 print(f"key error for {macro_name} in line {line} in file {cfg_file}")
     print("="*80)
