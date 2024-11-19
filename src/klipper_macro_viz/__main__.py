@@ -4,68 +4,22 @@ from pathlib import Path
 from pprint import pprint as pretty
 from anytree import Node, RenderTree
 
+from klipper_macro_viz.find_all_cfg_files import find_all_cfg_files
+from klipper_macro_viz.find_macro_definitions import find_macro_definitions
+
 
 DEFAULT_DIR = Path(Path.home(),"printer_data","config")
 
-def find_all_cfg_files(dir_for_files): 
-    print(f"Directory to check for Macros is: {dir_for_files}")
-    cfg_files = Path(dir_for_files).glob('**/*')
-    config_file_list = []
-    non_config_file_name_list = []
-    for a_file in cfg_files:
-        file_info = {
-            "path_object": a_file,
-            "name": a_file.name,
-            "line_count": -1,
-        }
-        if ".cfg" in str(a_file):
-            config_file_list.append(file_info)
-        else:
-            non_config_file_name_list.append(file_info)
-    return config_file_list
-
-
-def is_macro_definition(line_of_file):
-    macro_name = re.search("^\[gcode_macro (.*)\]$",line_of_file)
-    try:
-        name = macro_name.group(1)
-    except AttributeError:
-        return False
-    return name
-
-def find_macro_definitions(file_list_of_dicts):
-    macro_references = {}
-    file_list = [x for x in file_list_of_dicts]
-    for file_dict in file_list_of_dicts:
-        with open(file_dict["path_object"], 'r') as open_file:
-            line_number = 0
-            for config_line in open_file:
-                line_number += 1
-                found_macro = is_macro_definition(config_line)
-                if not found_macro:
-                    continue
-                source = {"file_name": open_file.name,
-                    "definition": config_line,
-                    "line_no": line_number,
-                    }
-                macro_references.setdefault(found_macro, []).append(source)
-            file_dict["line_count"] = line_number
-    return macro_references
 
 def main(macro_directory=None, find_macro=None):
-    
     files_to_check = find_all_cfg_files(macro_directory)
     macro_definitions = find_macro_definitions(files_to_check)
-
     macro_list = macro_definitions.keys()  # not sure I will keep this
 
     hierarchy = {}
     occurrence_references = {}
-    occurrences = {}
-    for each_macro in macro_list:
-         occurrences[each_macro] = 0
+    occurrences = {each_macro: 0 for each_macro in  macro_list}
 
-    total_lines = 0  # how many total lines are there in all files
     for cfg_file in files_to_check:  # check all files
         with open(cfg_file["path_object"], 'r') as open_file:
             file_lines = 0  # how many lines in just THIS file
@@ -74,7 +28,6 @@ def main(macro_directory=None, find_macro=None):
             print(f"JUST OPENED file")
             print(f"\t{open_file.name}")
             for line in open_file:  # line-by-line review
-                total_lines += 1
                 file_lines += 1
                 is_comment = re.search("^(#).*",line)
                 try:
@@ -108,6 +61,7 @@ def main(macro_directory=None, find_macro=None):
                                 print(f"\t\tkey error for {macro_name} in line {line} in file {cfg_file}")
                                 print(f"")
                                 raise e
+    total_lines = sum([each_file["line_count"] for each_file in files_to_check])
     print("="*80)
     print(f"{total_lines} total lines searched")
     # print("="*80)
