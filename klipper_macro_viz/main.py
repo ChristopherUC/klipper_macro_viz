@@ -6,7 +6,7 @@ from klipper_macro_viz.utils.search import search
 DEFAULT_CONFIG_DIR = Path(Path.home(),"printer_data","config")
 
 
-def ensure_encoding() -> None:
+def ensure_encoding():
     if sys.stdout.encoding == "UTF-8" or not isinstance(sys.stdout, io.TextIOWrapper):
         return
     sys.stdout.reconfigure(encoding="utf-8")
@@ -14,6 +14,8 @@ def ensure_encoding() -> None:
 
 def main():
     print("hello")
+    sys.exit(0)
+    
     ensure_encoding()
     
     try:
