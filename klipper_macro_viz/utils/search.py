@@ -8,16 +8,22 @@ from anytree import Node, RenderTree
 from pprint import pprint as pretty
 
 
-def search(macro_directory=None, find_macro=None):
-    files_to_check = find_all_cfg_files(macro_directory)
+def search(config_file_dir=None, macro_name_to_search=None):
+    files_to_check = find_all_cfg_files(config_file_dir)
     macro_definitions = find_macro_definitions(files_to_check)
-    macro_list = macro_definitions.keys()  # not sure I will keep this
+    # macro_list = macro_definitions.keys()  # not sure I will keep this
 
+    a, b, c = deep_search(files_to_check, macro_definitions)
+
+    print_output(a, b, c, files_to_check, macro_name_to_search, macro_definitions) 
+
+
+def deep_search(file_name_list=None, macro_sources=None):
     hierarchy = {}
     occurrence_references = {}
-    occurrences = {each_macro: 0 for each_macro in  macro_list}
+    occurrences = {each_macro.lower(): 0 for each_macro in  macro_sources}
 
-    for cfg_file in files_to_check:  # check all files
+    for cfg_file in file_name_list:  # check all files
         file_lines = 0
         with open(cfg_file["path_object"], 'r') as open_file:
             current_macro = None  # which macro are we currently searching
@@ -43,8 +49,8 @@ def search(macro_directory=None, find_macro=None):
                 except AttributeError:  # this line is NOT a new macro
                     if current_macro is None:
                         continue  # we aren't actually looking inside a macro yet
-                    for macro_name in macro_list:  # we will look for EVERY macro
-                        if macro_name in line:  # check THIS LINE for each of the individual macros
+                    for name in macro_sources:  # we will look for EVERY macro
+                        if name in line.lower():  # check THIS LINE for each of the individual macros
                             print(f"\t\t\tfound reference to {macro_name} in line {line}")
                             try:
                                 reference = {'line': line,
@@ -52,13 +58,17 @@ def search(macro_directory=None, find_macro=None):
                                              'file_name': open_file.name,
                                              }
                                 hierarchy.setdefault(current_macro, []).append(reference)  # append this line to 
-                                occurrences[macro_name] +=1
-                                occurrence_references.setdefault(macro_name, []).append(current_macro)
+                                occurrences[name] +=1
+                                occurrence_references.setdefault(name, []).append(current_macro)
                             except KeyError as e:
-                                print(f"\t\tkey error for {macro_name} in line {line} in file {cfg_file}")
+                                print(f"\t\tkey error for {name} in line {line} in file {cfg_file}")
                                 print(f"")
                                 raise e
-    total_lines = sum([each_file["line_count"] for each_file in files_to_check])
+    return hierarchy, occurrence_references, occurrences
+
+
+def print_output(hierarchy, occurrence_references, occurrences, file_name_list, find_macro, macro_definitions):
+    total_lines = sum([each_file["line_count"] for each_file in file_name_list])
     print("="*80)
     print(f"{total_lines} total lines searched")
     # print("="*80)
@@ -68,7 +78,7 @@ def search(macro_directory=None, find_macro=None):
     print("="*80)
     print(f"{len(occurrences)} total macros")
     print("="*80)
-    print(f"{len(files_to_check)} total files")
+    print(f"{len(file_name_list)} total files")
     print("="*80)
     if find_macro is None:
         pretty(occurrences)

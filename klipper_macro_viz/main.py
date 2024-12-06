@@ -18,20 +18,20 @@ def main():
     ensure_encoding()
     
     try:
-        macro_dir = Path(sys.argv[1])
+        config_search_dir = Path(sys.argv[1])
     except IndexError as e:
         print("No macro dir provided, defaulting to:")
         print(DEFAULT_CONFIG_DIR)
-        macro_dir = Path(DEFAULT_CONFIG_DIR)
+        config_search_dir = Path(DEFAULT_CONFIG_DIR)
     except KeyboardInterrupt:
         sys.exit(0)
     
     try:
-        macro_search = sys.argv[2]
+        macro_search_name = sys.argv[2]
     except IndexError as e:
         print("No macro to search provided, defaulting to ALL")
-        macro_search = None
+        macro_search_name = None
     except KeyboardInterrupt:
         sys.exit(0)
 
-    search(macro_dir, macro_search)
+    search(config_search_dir, macro_search_name)
