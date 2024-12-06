@@ -22,18 +22,18 @@ def print_file_info(file_list):
     print("="*80)
     print("FILE INFO END")
 
-def print_search_or_all(occurrences, find_macro, hierarchy, macro_definitions, occurrence_references):
+def print_search_or_all(use_count, find_macro, hierarchy, macro_definitions, used_by):
     print("USAGE COUNT INFO BEGIN")
     print("="*80)
-    print(f"{len(occurrences)} total macros")
+    print(f"{len(use_count)} total macros")
     print("="*80)
     if find_macro is None:
-        pretty(occurrences)
+        pretty(use_count)
     else:
-        print(f"Macro {find_macro} appears {occurrences[find_macro]} times")
-        if int(occurrences[find_macro]) > 0:
+        print(f"Macro {find_macro} appears {use_count[find_macro]} times")
+        if int(use_count[find_macro]) > 0:
             print(f"in the following macros")
-            pretty(f"{occurrence_references[find_macro]}")
+            pretty(f"{used_by[find_macro]}")
         try:
             print(f"Macro {find_macro} references {len(hierarchy[find_macro])} other macros")
             pretty(hierarchy[find_macro])

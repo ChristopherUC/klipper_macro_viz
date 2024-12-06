@@ -44,11 +44,14 @@ def deep_search(file_name_list=None, macro_sources=None):
                 except AttributeError:  # this line is NOT a new macro
                     if current_macro is None:
                         continue  # we aren't actually looking inside a macro yet
+
+                    # TODO: this is NOT working correctly yet, review algorithm
                     for name in macro_sources:  # we will look for EVERY macro
                         if name in line.upper():  # check THIS LINE for each of the individual macros
                             print(f"\t\t\tfound reference to {macro_name} in line {line}")
                             try:
-                                reference = {'line': line,
+                                reference = {'macro_name': name,
+                                             'line': line,
                                              'line_no': file_lines,
                                              'file_name': open_file.name,
                                              }
