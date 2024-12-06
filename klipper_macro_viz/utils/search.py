@@ -11,17 +11,16 @@ from pprint import pprint as pretty
 def search(config_file_dir=None, macro_name_to_search=None):
     files_to_check = find_all_cfg_files(config_file_dir)
     macro_definitions = find_macro_definitions(files_to_check)
-    # macro_list = macro_definitions.keys()  # not sure I will keep this
 
-    a, b, c = deep_search(files_to_check, macro_definitions)
+    hier, refs, counts = deep_search(files_to_check, macro_definitions)
 
-    print_output(a, b, c, files_to_check, macro_name_to_search, macro_definitions) 
+    print_output(hier, refs, counts, files_to_check, macro_name_to_search, macro_definitions) 
 
 
 def deep_search(file_name_list=None, macro_sources=None):
     hierarchy = {}
     occurrence_references = {}
-    occurrences = {each_macro.upper(): 0 for each_macro in  macro_sources}
+    occur_counts = {each_macro.upper(): 0 for each_macro in  macro_sources}
 
     for cfg_file in file_name_list:  # check all files
         file_lines = 0
@@ -58,13 +57,13 @@ def deep_search(file_name_list=None, macro_sources=None):
                                              'file_name': open_file.name,
                                              }
                                 hierarchy.setdefault(current_macro, []).append(reference)  # append this line to 
-                                occurrences[name] +=1
+                                occur_counts[name] +=1
                                 occurrence_references.setdefault(name, []).append(current_macro)
                             except KeyError as e:
                                 print(f"\t\tkey error for {name} in line {line} in file {cfg_file}")
                                 print(f"")
                                 raise e
-    return hierarchy, occurrence_references, occurrences
+    return hierarchy, occurrence_references, occur_counts
 
 
 def print_output(hierarchy, occurrence_references, occurrences, file_name_list, find_macro, macro_definitions):
