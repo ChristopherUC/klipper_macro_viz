@@ -21,7 +21,7 @@ def search(config_file_dir=None, macro_name_to_search=None):
 def deep_search(file_name_list=None, macro_sources=None):
     hierarchy = {}
     occurrence_references = {}
-    occurrences = {each_macro.lower(): 0 for each_macro in  macro_sources}
+    occurrences = {each_macro.upper(): 0 for each_macro in  macro_sources}
 
     for cfg_file in file_name_list:  # check all files
         file_lines = 0
@@ -50,7 +50,7 @@ def deep_search(file_name_list=None, macro_sources=None):
                     if current_macro is None:
                         continue  # we aren't actually looking inside a macro yet
                     for name in macro_sources:  # we will look for EVERY macro
-                        if name in line.lower():  # check THIS LINE for each of the individual macros
+                        if name in line.upper():  # check THIS LINE for each of the individual macros
                             print(f"\t\t\tfound reference to {macro_name} in line {line}")
                             try:
                                 reference = {'line': line,
