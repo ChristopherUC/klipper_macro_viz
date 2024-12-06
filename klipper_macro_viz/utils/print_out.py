@@ -2,14 +2,15 @@ from anytree import Node, RenderTree
 from pprint import pprint as pretty
 
 def print_output(hierarchy, occurrence_references, occurrences, file_name_list, find_macro, macro_definitions):
-
+    input("Press Enter to continue...")
     print_file_info(file_name_list)
-
+    input("Press Enter to continue...")
     print_search_or_all(occurrences, find_macro, hierarchy, macro_definitions, occurrence_references)
-
+    input("Press Enter to continue...")
     print_occurrences(file_name_list, occurrence_references)
-
+    input("Press Enter to continue...")
     print_definitions(macro_definitions)
+    input("Press Enter to continue...")
 
 def print_file_info(file_list):
     total_lines = sum([each_file["line_count"] for each_file in file_list])
