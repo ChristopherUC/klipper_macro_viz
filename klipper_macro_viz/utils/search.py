@@ -1,11 +1,10 @@
-from klipper_macro_viz.find_all_cfg_files import find_all_cfg_files
-from klipper_macro_viz.find_macro_definitions import find_macro_definitions
+import re
 
+from klipper_macro_viz.utils.find_all_cfg_files import find_all_cfg_files
+from klipper_macro_viz.utils.find_macro_definitions import find_macro_definitions
 
 from anytree import Node, RenderTree
 
-
-import re
 from pprint import pprint as pretty
 
 

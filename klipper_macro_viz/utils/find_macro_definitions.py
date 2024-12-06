@@ -1,4 +1,4 @@
-from klipper_macro_viz.is_macro_definition import is_macro_definition
+from klipper_macro_viz.utils.is_macro_definition import is_macro_definition
 
 
 def find_macro_definitions(file_list_of_dicts):
