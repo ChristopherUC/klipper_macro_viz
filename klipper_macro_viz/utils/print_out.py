@@ -2,17 +2,26 @@ from anytree import Node, RenderTree
 from pprint import pprint as pretty
 
 def print_output(hierarchy, occurrence_references, occurrences, file_name_list, find_macro, macro_definitions):
-    total_lines = sum([each_file["line_count"] for each_file in file_name_list])
+
+    print_file_info(file_name_list)
+
+    print_search_or_all(occurrences, find_macro, hierarchy, macro_definitions, occurrence_references)
+
+    print_occurrences(file_name_list, occurrence_references)
+
+    print_definitions(macro_definitions)
+
+def print_file_info(file_list):
+    total_lines = sum([each_file["line_count"] for each_file in file_list])
     print("="*80)
     print(f"{total_lines} total lines searched")
-    # print("="*80)
-    # print(hierarchy.keys())
-    # print("="*80)
-    # print(hierarchy)
+    print("="*80)
+    print(f"{len(file_list)} total files")
+    print("="*80)
+
+def print_search_or_all(occurrences, find_macro, hierarchy, macro_definitions, occurrence_references):
     print("="*80)
     print(f"{len(occurrences)} total macros")
-    print("="*80)
-    print(f"{len(file_name_list)} total files")
     print("="*80)
     if find_macro is None:
         pretty(occurrences)
@@ -40,6 +49,7 @@ def print_output(hierarchy, occurrence_references, occurrences, file_name_list, 
         except KeyError:
             print("definition not found, WTF")
 
+def print_occurrences(file_list, occurrence_references):
     print("="*80)  # occurrence_references
     file_list = Node("config")
     macro_nodes = []
@@ -48,6 +58,7 @@ def print_output(hierarchy, occurrence_references, occurrences, file_name_list, 
     for pre, fill, node in RenderTree(file_list):
         print("%s%s" % (pre, node.name))
 
+def print_definitions(macro_definitions):
     print("="*80)  # macro_definitions
     macro_list = Node("config_file")
     # print("macdef:/",macro_definitions,"/")
