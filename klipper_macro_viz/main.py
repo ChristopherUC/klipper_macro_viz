@@ -12,7 +12,7 @@ def ensure_encoding() -> None:
     sys.stdout.reconfigure(encoding="utf-8")
 
 
-def main() -> None:
+def main():
     print("hello")
     ensure_encoding()
     
