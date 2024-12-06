@@ -13,14 +13,17 @@ def print_output(hierarchy, occurrence_references, occurrences, file_name_list, 
     input("Press Enter to continue...")
 
 def print_file_info(file_list):
+    print("FILE INFO BEGIN")
     total_lines = sum([each_file["line_count"] for each_file in file_list])
     print("="*80)
     print(f"{total_lines} total lines searched")
     print("="*80)
     print(f"{len(file_list)} total files")
     print("="*80)
+    print("FILE INFO END")
 
 def print_search_or_all(occurrences, find_macro, hierarchy, macro_definitions, occurrence_references):
+    print("SEARCH INFO BEGIN")
     print("="*80)
     print(f"{len(occurrences)} total macros")
     print("="*80)
@@ -49,8 +52,10 @@ def print_search_or_all(occurrences, find_macro, hierarchy, macro_definitions, o
                 print("="*80)
         except KeyError:
             print("definition not found, WTF")
+    print("SEARCH INFO END")
 
 def print_occurrences(file_list, occurrence_references):
+    print("TREE INFO BEGIN")
     print("="*80)  # occurrence_references
     file_list = Node("config")
     macro_nodes = []
@@ -58,8 +63,10 @@ def print_occurrences(file_list, occurrence_references):
         macro_nodes.append(Node(each_macro, parent=file_list))
     for pre, fill, node in RenderTree(file_list):
         print("%s%s" % (pre, node.name))
+    print("TREE INFO END")
 
 def print_definitions(macro_definitions):
+    print("DEFINITION INFO BEGIN")
     print("="*80)  # macro_definitions
     macro_list = Node("config_file")
     # print("macdef:/",macro_definitions,"/")
@@ -75,3 +82,4 @@ def print_definitions(macro_definitions):
     for pre, fill, node in RenderTree(macro_list):
         print("%s%s" % (pre, node.name))
     print("="*80)
+    print("DEFINITION INFO END")
