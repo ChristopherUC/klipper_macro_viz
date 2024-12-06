@@ -14,8 +14,7 @@ def ensure_encoding():
 
 def main():
     print("hello")
-    sys.exit(0)
-    
+
     ensure_encoding()
     
     try:
