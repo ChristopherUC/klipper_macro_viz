@@ -13,6 +13,7 @@ def ensure_encoding() -> None:
 
 
 def main() -> None:
+    print("hello")
     ensure_encoding()
     
     try:
