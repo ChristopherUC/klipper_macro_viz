@@ -38,14 +38,14 @@ def search(macro_directory=None, find_macro=None):
                     current_macro = macro_name.group(1)  # set the new macro name
                     print("-"*20)  # and print the header info
                     print(f"Currently searching line {file_lines}")
-                    print(f"inside macro {current_macro}")
-                    print(f"\tin file {open_file.name}")
+                    print(f"\tinside macro {current_macro}")
+                    print(f"\t\tin file {open_file.name}")
                 except AttributeError:  # this line is NOT a new macro
                     if current_macro is None:
                         continue  # we aren't actually looking inside a macro yet
                     for macro_name in macro_list:  # we will look for EVERY macro
                         if macro_name in line:  # check THIS LINE for each of the individual macros
-                            print(f"\t\tfound reference to {macro_name} in line {line}")
+                            print(f"\t\t\tfound reference to {macro_name} in line {line}")
                             try:
                                 reference = {'line': line,
                                              'line_no': file_lines,
